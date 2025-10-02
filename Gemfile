@@ -7,5 +7,5 @@ gem "sqlite3"
 gem "puma"
 
 group :development, :test do
-  gem "rails", "~> 7.0"
+  gem "rails", "~> 7.1"
 end

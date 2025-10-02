@@ -70,14 +70,14 @@ module Reported
       assert_response :bad_request
     end
 
-    test "stores raw_report as JSON" do
+    test "stores raw_report as JSONB" do
       post '/csp-reports',
         params: @valid_csp_report_old_format.to_json,
         headers: { 'CONTENT_TYPE' => 'application/json' }
       
       report = Report.last
-      parsed = JSON.parse(report.raw_report)
-      assert_equal @valid_csp_report_old_format, parsed
+      # With JSONB, raw_report is stored as a hash directly
+      assert_equal @valid_csp_report_old_format.deep_stringify_keys, report.raw_report
     end
 
     test "does not require CSRF token" do

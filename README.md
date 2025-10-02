@@ -10,6 +10,12 @@ A Rails engine that collects, stores and notifies on Slack about Content Securit
 - Optional Slack notifications for CSP violations
 - Easy integration with Rails applications
 
+## Requirements
+
+- Ruby >= 3.2
+- Rails >= 7.1
+- PostgreSQL (for JSONB support)
+
 ## Installation
 
 Add this line to your application's Gemfile:

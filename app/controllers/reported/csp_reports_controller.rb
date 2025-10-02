@@ -15,7 +15,7 @@ module Reported
           violated_directive: csp_data[:violated_directive],
           blocked_uri: csp_data[:blocked_uri],
           original_policy: csp_data[:original_policy],
-          raw_report: report_data.to_json
+          raw_report: report_data
         )
 
         # Send notification if enabled

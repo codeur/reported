@@ -7,7 +7,7 @@ module Reported
         document_uri: "https://example.com/page",
         violated_directive: "script-src 'self'",
         blocked_uri: "https://evil.com/script.js",
-        raw_report: '{"csp-report": {}}'
+        raw_report: {"csp-report" => {}}
       )
       Reported.slack_webhook_url = "https://hooks.slack.com/services/TEST/WEBHOOK/URL"
     end
