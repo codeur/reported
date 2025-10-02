@@ -1,0 +1,72 @@
+require 'test_helper'
+
+module Reported
+  class CspReportsControllerTest < ActionDispatch::IntegrationTest
+    include Engine.routes.url_helpers
+
+    setup do
+      @valid_csp_report = {
+        "csp-report" => {
+          "document-uri" => "https://example.com/page",
+          "violated-directive" => "script-src 'self'",
+          "blocked-uri" => "https://evil.com/script.js",
+          "original-policy" => "default-src 'self'; script-src 'self'"
+        }
+      }
+    end
+
+    test "creates report with valid CSP data" do
+      assert_difference 'Report.count', 1 do
+        post csp_reports_url, 
+          params: @valid_csp_report.to_json,
+          headers: { 'CONTENT_TYPE' => 'application/json' }
+      end
+      
+      assert_response :no_content
+      
+      report = Report.last
+      assert_equal "https://example.com/page", report.document_uri
+      assert_equal "script-src 'self'", report.violated_directive
+      assert_equal "https://evil.com/script.js", report.blocked_uri
+    end
+
+    test "returns bad_request with invalid JSON" do
+      assert_no_difference 'Report.count' do
+        post csp_reports_url,
+          params: "invalid json{",
+          headers: { 'CONTENT_TYPE' => 'application/json' }
+      end
+      
+      assert_response :bad_request
+    end
+
+    test "returns bad_request with empty body" do
+      assert_no_difference 'Report.count' do
+        post csp_reports_url,
+          params: "",
+          headers: { 'CONTENT_TYPE' => 'application/json' }
+      end
+      
+      assert_response :bad_request
+    end
+
+    test "stores raw_report as JSON" do
+      post csp_reports_url,
+        params: @valid_csp_report.to_json,
+        headers: { 'CONTENT_TYPE' => 'application/json' }
+      
+      report = Report.last
+      parsed = JSON.parse(report.raw_report)
+      assert_equal @valid_csp_report, parsed
+    end
+
+    test "does not require CSRF token" do
+      # This test verifies that external browsers can POST without CSRF token
+      post csp_reports_url,
+        params: @valid_csp_report.to_json,
+        headers: { 'CONTENT_TYPE' => 'application/json' }
+      
+      assert_response :no_content
+    end
+  end
+end
