@@ -9,11 +9,7 @@ Next steps:
    rails reported:install:migrations
    rails db:migrate
 
-2. Mount the engine in your routes.rb:
-   
-   mount Reported::Engine, at: "/reported"
-
-   This will make the CSP reports endpoint available at /reported/csp-reports
+2. The CSP reports endpoint is automatically available at /csp-reports
 
 3. Configure your Content Security Policy to send reports to this endpoint:
    
@@ -21,7 +17,7 @@ Next steps:
    
    Rails.application.config.content_security_policy do |policy|
      # ... your CSP directives ...
-     policy.report_uri "/reported/csp-reports"
+     policy.report_uri "/csp-reports"
    end
 
 4. Configure Slack notifications in config/initializers/reported.rb

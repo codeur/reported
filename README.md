@@ -49,16 +49,7 @@ $ rails db:migrate
 
 This creates the `reported_reports` table.
 
-3. Mount the engine in your `config/routes.rb`:
-
-```ruby
-Rails.application.routes.draw do
-  mount Reported::Engine, at: "/reported"
-  # ... your other routes
-end
-```
-
-This makes the CSP reports endpoint available at `/reported/csp-reports`.
+The CSP reports endpoint is automatically available at `/csp-reports` (no mounting required).
 
 ## Configuration
 
@@ -73,7 +64,7 @@ Rails.application.config.content_security_policy do |policy|
   # ... your other CSP directives ...
   
   # Configure the report URI
-  policy.report_uri "/reported/csp-reports"
+  policy.report_uri "/csp-reports"
 end
 ```
 

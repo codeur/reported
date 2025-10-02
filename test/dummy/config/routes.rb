@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount Reported::Engine => "/reported"
+  # Routes are automatically added by Reported::Engine initializer
 end
