@@ -1,0 +1,29 @@
+===============================================================================
+
+Reported has been installed!
+
+Next steps:
+
+1. Run the migration to create the reports table:
+   
+   rails reported:install:migrations
+   rails db:migrate
+
+2. The CSP reports endpoint is automatically available at /csp-reports
+
+3. Configure your Content Security Policy to send reports to this endpoint:
+   
+   In your config/initializers/content_security_policy.rb:
+   
+   Rails.application.config.content_security_policy do |policy|
+     # ... your CSP directives ...
+     policy.report_uri "/csp-reports"
+   end
+
+4. Configure Slack notifications in config/initializers/reported.rb
+
+5. Set your Slack webhook URL as an environment variable:
+   
+   REPORTED_SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+
+===============================================================================
