@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Reported
   class Report < ApplicationRecord
     validates :raw_report, presence: true

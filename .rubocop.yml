@@ -1,0 +1,11 @@
+require:
+  - rubocop-codeur
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.2
+  Exclude:
+    - 'test/dummy/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'bin/**/*'

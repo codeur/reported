@@ -1,15 +1,17 @@
-require 'rails/generators'
+# frozen_string_literal: true
+
+require "rails/generators"
 
 module Reported
   module Generators
     class InstallGenerator < Rails::Generators::Base
-      source_root File.expand_path('templates', __dir__)
+      source_root File.expand_path("templates", __dir__)
 
       desc "Creates Reported initializer for your application"
 
       def copy_initializer
         template "reported.rb", "config/initializers/reported.rb"
-        
+
         puts "Reported initializer created at config/initializers/reported.rb"
       end
 
@@ -17,7 +19,7 @@ module Reported
         readme "README" if behavior == :invoke
       end
 
-      def self.next_migration_number(dirname)
+      def self.next_migration_number(_dirname)
         Time.now.utc.strftime("%Y%m%d%H%M%S")
       end
     end

@@ -1,6 +1,8 @@
-require 'net/http'
-require 'uri'
-require 'json'
+# frozen_string_literal: true
+
+require "net/http"
+require "uri"
+require "json"
 
 module Reported
   class NotificationJob < ActiveJob::Base
@@ -14,7 +16,7 @@ module Reported
 
       send_slack_notification(report)
       report.mark_as_notified!
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error("Error sending Slack notification for report #{report_id}: #{e.message}")
       raise
     end
@@ -24,16 +26,16 @@ module Reported
     def send_slack_notification(report)
       uri = URI.parse(Reported.slack_webhook_url)
       http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true if uri.scheme == 'https'
+      http.use_ssl = true if uri.scheme == "https"
 
-      request = Net::HTTP::Post.new(uri.path, 'Content-Type' => 'application/json')
+      request = Net::HTTP::Post.new(uri.path, "Content-Type" => "application/json")
       request.body = notification_payload(report).to_json
 
       response = http.request(request)
 
-      unless response.code.to_i == 200
-        raise "Slack API returned #{response.code}: #{response.body}"
-      end
+      return if response.code.to_i == 200
+
+      raise "Slack API returned #{response.code}: #{response.body}"
     end
 
     def notification_payload(report)
