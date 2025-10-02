@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "reported/version"
-require "reported/engine"
+require 'reported/version'
+require 'reported/engine'
 
 module Reported
   mattr_accessor :slack_webhook_url

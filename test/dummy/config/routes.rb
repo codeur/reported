@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  # Routes are automatically added by Reported::Engine initializer
+  mount Reported::Engine => '/reported'
 end

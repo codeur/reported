@@ -7,7 +7,11 @@ class CreateReportedReports < ActiveRecord::Migration[7.1]
       t.string :violated_directive
       t.string :blocked_uri
       t.text :original_policy
-      t.jsonb :raw_report, null: false, default: {}
+      if connection.adapter_name.downcase.include?('postgresql')
+        t.jsonb :raw_report, null: false, default: {}
+      else
+        t.json :raw_report, null: false, default: {}
+      end
       t.datetime :notified_at
 
       t.timestamps
